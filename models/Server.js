@@ -14,10 +14,20 @@ class Server {
     this.server = http.createServer(this.app)
 
     // Configuracion de Sockets
-    this.io = socketio(this.server, {/* configs */});
+    this.io = socketio(this.server, {cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+    }});
   }
 
   middelwares () {
+    this.app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      res.header("Access-Control-Allow-Headers", "Content-Type");
+      res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+      next();
+    });
     this.app.use( express.static( path.resolve(__dirname, '../public') ) )
   }
 
