@@ -1,15 +1,7 @@
-// Servidor de express
-const server = require('http').createServer();
+const Server = require("./models/Server");
+require('dotenv').config();
 
-// Servidor de sockets
-const io = require('socket.io')(server);
+const server = new Server();
 
-// configuracion del socket
-io.on('connection', client => {
-  client.on('event', data => { /* … */ });
-  client.on('disconnect', () => { /* … */ });
-});
-server.listen(8080, () => {
-  console.log('Server corriendo en 8080');
-});
+server.execute();
 
